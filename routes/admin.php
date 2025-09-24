@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\JobApplicationController;
 use App\Http\Controllers\Admin\PasswordChangeController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\LoginController;
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 //Login
@@ -29,4 +30,5 @@ Route::middleware('admin')->group(function () {
 
     Route::resource('companies', CompanyController::class);
     Route::resource('job-applications', JobApplicationController::class);
+    Route::resource('users', UserController::class);
 });
