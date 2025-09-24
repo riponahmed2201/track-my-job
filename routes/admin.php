@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\JobApplicationController;
 use App\Http\Controllers\Admin\PasswordChangeController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\LoginController;
@@ -27,4 +28,5 @@ Route::middleware('admin')->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::resource('companies', CompanyController::class);
+    Route::resource('job-applications', JobApplicationController::class);
 });

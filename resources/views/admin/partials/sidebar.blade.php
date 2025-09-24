@@ -14,6 +14,11 @@
                 <i class="bi bi-car-front"></i><span>Companies</span>
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{{ route('admin.job-applications.index') }}">
+                <i class="bi bi-car-front"></i><span>Job Applications</span>
+            </a>
+        </li>
 
     </ul>
 </aside>

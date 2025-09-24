@@ -45,9 +45,10 @@
                         <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
 
                             <div class="d-flex justify-content-center py-4">
-                                <a href="/admin/login" class="logo d-flex align-items-center w-auto">
-                                    <img src="{{ asset('assets/admin/img/logo.png') }}" alt="logo">
-                                    <span class="d-none d-lg-block">Admin</span>
+                                <a href="/admin/login" class=" d-flex align-items-center w-auto">
+                                    <img style="width: 405px; height:80px"
+                                        src="{{ asset('assets/logo/Screenshot 2025-09-24 175422.png') }}"
+                                        alt="logo">
                                 </a>
                             </div><!-- End Logo -->
 
