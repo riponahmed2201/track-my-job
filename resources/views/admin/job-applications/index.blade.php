@@ -26,6 +26,8 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
+
+                            {{-- Header --}}
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <h5 class="card-title">All Job Applications</h5>
                                 <a href="{{ route('admin.job-applications.create') }}" class="btn btn-primary">
@@ -33,6 +35,87 @@
                                 </a>
                             </div>
 
+                            {{-- Filter Form --}}
+                            <form method="GET" action="{{ route('admin.job-applications.index') }}"
+                                class="row g-3 mb-4 align-items-end">
+                                <div class="col-md-2">
+                                    <label class="form-label">Status</label>
+                                    <select name="status" class="form-select">
+                                        <option value="">All</option>
+                                        @foreach (['applied', 'under_review', 'phone_screen', 'technical_test', 'interview', 'final_interview', 'offer', 'accepted', 'rejected', 'withdrawn'] as $status)
+                                            <option value="{{ $status }}"
+                                                {{ request('status') == $status ? 'selected' : '' }}>
+                                                {{ ucfirst(str_replace('_', ' ', $status)) }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <label class="form-label">Priority</label>
+                                    <select name="priority" class="form-select">
+                                        <option value="">All</option>
+                                        @foreach (['low', 'medium', 'high'] as $p)
+                                            <option value="{{ $p }}"
+                                                {{ request('priority') == $p ? 'selected' : '' }}>
+                                                {{ ucfirst($p) }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="form-label">Company</label>
+                                    <select name="company_id" class="form-select">
+                                        <option value="">All</option>
+                                        @foreach ($companies as $company)
+                                            <option value="{{ $company->id }}"
+                                                {{ request('company_id') == $company->id ? 'selected' : '' }}>
+                                                {{ $company->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="form-label">Applicant</label>
+                                    <select name="applicant_id" class="form-select">
+                                        <option value="">All</option>
+                                        @foreach ($users as $user)
+                                            <option value="{{ $user->id }}"
+                                                {{ request('applicant_id') == $user->id ? 'selected' : '' }}>
+                                                {{ $user->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <label class="form-label">Applied From</label>
+                                    <input type="date" name="from_date" value="{{ request('from_date') }}"
+                                        class="form-control">
+                                </div>
+
+                                <div class="col-md-2">
+                                    <label class="form-label">Applied To</label>
+                                    <input type="date" name="to_date" value="{{ request('to_date') }}"
+                                        class="form-control">
+                                </div>
+
+                                <div class="col-md-2">
+                                    <button type="submit" class="btn btn-primary w-100">
+                                        <i class="bi bi-funnel"></i> Filter
+                                    </button>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <a href="{{ route('admin.job-applications.index') }}" class="btn btn-secondary w-100">
+                                        <i class="bi bi-x-circle"></i> Reset
+                                    </a>
+                                </div>
+                            </form>
+
+                            {{-- Applications Table --}}
                             <div class="table-responsive">
                                 <table class="table table-striped align-middle">
                                     <thead>
@@ -60,27 +143,33 @@
                                                         $statusClasses = [
                                                             'applied' => 'bg-primary',
                                                             'under_review' => 'bg-info',
+                                                            'phone_screen' => 'bg-secondary',
+                                                            'technical_test' => 'bg-secondary',
                                                             'interview' => 'bg-warning',
+                                                            'final_interview' => 'bg-warning',
                                                             'offer' => 'bg-success',
+                                                            'accepted' => 'bg-success',
                                                             'rejected' => 'bg-danger',
+                                                            'withdrawn' => 'bg-secondary',
                                                         ];
-
                                                         $statusClass =
                                                             $statusClasses[$application->application_status] ??
                                                             'bg-secondary';
                                                     @endphp
-
                                                     <span class="badge {{ $statusClass }}">
                                                         {{ ucfirst(str_replace('_', ' ', $application->application_status)) }}
                                                     </span>
-
                                                 </td>
                                                 <td>
+                                                    @php
+                                                        $priorityClasses = [
+                                                            'high' => 'bg-danger',
+                                                            'medium' => 'bg-warning',
+                                                            'low' => 'bg-secondary',
+                                                        ];
+                                                    @endphp
                                                     <span
-                                                        class="badge
-                                                    {{ $application->priority == 'high' ? 'bg-danger' : '' }}
-                                                    {{ $application->priority == 'medium' ? 'bg-warning' : '' }}
-                                                    {{ $application->priority == 'low' ? 'bg-secondary' : '' }}">
+                                                        class="badge {{ $priorityClasses[$application->priority] ?? 'bg-secondary' }}">
                                                         {{ ucfirst($application->priority) }}
                                                     </span>
                                                 </td>
@@ -118,9 +207,11 @@
                                 </table>
                             </div>
 
-                            <div class="d-flex justify-content-center">
+                            {{-- Pagination --}}
+                            <div class="d-flex justify-content-center mt-3">
                                 {{ $applications->links('pagination::bootstrap-4') }}
                             </div>
+
                         </div>
                     </div>
                 </div>

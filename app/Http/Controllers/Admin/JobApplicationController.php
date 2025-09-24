@@ -12,14 +12,44 @@ use Illuminate\Http\Request;
 
 class JobApplicationController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $applications =  JobApplication::with(['user', 'company'])
-            ->latest()
-            ->paginate(15);
+        $query = JobApplication::with(['user', 'company']);
 
-        return view('admin.job-applications.index', compact('applications'));
+        // Filters
+        if ($request->filled('status')) {
+            $query->where('application_status', $request->status);
+        }
+
+        if ($request->filled('priority')) {
+            $query->where('priority', $request->priority);
+        }
+
+        if ($request->filled('company_id')) {
+            $query->where('company_id', $request->company_id);
+        }
+
+        if ($request->filled('applicant_id')) {
+            $query->where('user_id', $request->applicant_id);
+        }
+
+        if ($request->filled('from_date')) {
+            $query->whereDate('application_date', '>=', $request->from_date);
+        }
+
+        if ($request->filled('to_date')) {
+            $query->whereDate('application_date', '<=', $request->to_date);
+        }
+
+        $applications = $query->latest()->paginate(15)->withQueryString();
+
+        // For filter dropdowns
+        $companies = Company::orderBy('name')->get();
+        $users = User::orderBy('name')->get();
+
+        return view('admin.job-applications.index', compact('applications', 'companies', 'users'));
     }
+
 
     public function create()
     {
