@@ -56,15 +56,24 @@
                                                 <td>{{ $application->company->name ?? '-' }}</td>
                                                 <td>{{ $application->user->name ?? '-' }}</td>
                                                 <td>
-                                                    <span
-                                                        @class="badge
-                                                    {{ $application->application_status == 'applied' ? 'bg-primary' : '' }}
-                                                    {{ $application->application_status == 'under_review' ? 'bg-info' : '' }}
-                                                    {{ $application->application_status == 'interview' ? 'bg-warning' : '' }}
-                                                    {{ $application->application_status == 'offer' ? 'bg-success' : '' }}
-                                                    {{ $application->application_status == 'rejected' ? 'bg-danger' : '' }}">
+                                                    @php
+                                                        $statusClasses = [
+                                                            'applied' => 'bg-primary',
+                                                            'under_review' => 'bg-info',
+                                                            'interview' => 'bg-warning',
+                                                            'offer' => 'bg-success',
+                                                            'rejected' => 'bg-danger',
+                                                        ];
+
+                                                        $statusClass =
+                                                            $statusClasses[$application->application_status] ??
+                                                            'bg-secondary';
+                                                    @endphp
+
+                                                    <span class="badge {{ $statusClass }}">
                                                         {{ ucfirst(str_replace('_', ' ', $application->application_status)) }}
                                                     </span>
+
                                                 </td>
                                                 <td>
                                                     <span
