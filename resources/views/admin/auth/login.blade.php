@@ -10,8 +10,9 @@
     <meta content="" name="keywords">
 
     <!-- Favicons -->
-    <link href="{{ asset('assets/admin/img/track-my-job-logo.png') }}" rel="icon" type="image/png">
-    <link href="assets/admin/img/apple-touch-icon.png" rel="apple-touch-icon">
+    <link rel="icon" href="{{ asset('favicon.ico') }}" sizes="48x48" type="image/x-icon">
+    <link rel="icon" href="{{ asset('assets/admin/img/track-my-job-logo.png') }}" type="image/png" sizes="any">
+    <link rel="apple-touch-icon" href="{{ asset('assets/admin/img/track-my-job-logo.png') }}">
 
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">

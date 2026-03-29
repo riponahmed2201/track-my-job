@@ -1,6 +1,7 @@
-<!-- Favicons (Track My Job brand mark) -->
-<link href="{{ asset('assets/admin/img/track-my-job-logo.png') }}" rel="icon" type="image/png" sizes="any">
-<link href="{{ asset('assets/admin/img/track-my-job-logo.png') }}" rel="apple-touch-icon">
+<!-- Favicons: .ico for browser tab (auto /favicon.ico), PNG for sharp / PWA-style -->
+<link rel="icon" href="{{ asset('favicon.ico') }}" sizes="48x48" type="image/x-icon">
+<link rel="icon" href="{{ asset('assets/admin/img/track-my-job-logo.png') }}" type="image/png" sizes="any">
+<link rel="apple-touch-icon" href="{{ asset('assets/admin/img/track-my-job-logo.png') }}">
 
 <!-- Google Fonts -->
 <link href="https://fonts.gstatic.com" rel="preconnect">
