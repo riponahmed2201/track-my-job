@@ -44,6 +44,7 @@ return new class extends Migration
             $table->index('job_application_id');
             $table->index('user_id');
             $table->index('follow_up_date');
+            $table->index('reminder_date');
             $table->index('completed');
         });
     }

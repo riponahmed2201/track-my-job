@@ -22,4 +22,19 @@ class FollowUp extends Model
         'reminder_date',
         'completed',
     ];
+
+    protected $casts = [
+        'follow_up_date' => 'date',
+        'reminder_date' => 'date',
+    ];
+
+    public function jobApplication()
+    {
+        return $this->belongsTo(JobApplication::class, 'job_application_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

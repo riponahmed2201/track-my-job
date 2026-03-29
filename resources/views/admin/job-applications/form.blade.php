@@ -128,14 +128,14 @@
                                     <div class="col-md-6">
                                         <div class="form-group mb-3">
                                             <label class="form-label fw-semibold">Application Date</label>
-                                            <input type="date" name="application_date" class="form-control"
-                                                value="{{ old('application_date', isset($jobApplication->application_date) ? $jobApplication->application_date->format('Y-m-d') : '') }}">
+                                            <input type="date" name="application_date" class="form-control flatpickr-date"
+                                                value="{{ old('application_date', isset($jobApplication) && $jobApplication->application_date ? $jobApplication->application_date->format('Y-m-d') : '') }}">
                                         </div>
 
                                         <div class="form-group mb-3">
                                             <label class="form-label fw-semibold">Application Deadline</label>
-                                            <input type="date" name="application_deadline" class="form-control"
-                                                value="{{ old('application_deadline', isset($jobApplication->application_deadline) ? $jobApplication->application_deadline->format('Y-m-d') : '') }}">
+                                            <input type="date" name="application_deadline" class="form-control flatpickr-date"
+                                                value="{{ old('application_deadline', isset($jobApplication) && $jobApplication->application_deadline ? $jobApplication->application_deadline->format('Y-m-d') : '') }}">
                                         </div>
 
                                         <div class="form-group mb-3">
@@ -190,13 +190,13 @@
                                         <div class="row g-3 mb-3">
                                             <div class="col">
                                                 <label class="form-label fw-semibold">Last Follow-up Date</label>
-                                                <input type="date" name="last_follow_up_date" class="form-control"
-                                                    value="{{ old('last_follow_up_date', isset($jobApplication->last_follow_up_date) ? $jobApplication->last_follow_up_date->format('Y-m-d') : '') }}">
+                                                <input type="date" name="last_follow_up_date" class="form-control flatpickr-date"
+                                                    value="{{ old('last_follow_up_date', isset($jobApplication) && $jobApplication->last_follow_up_date ? $jobApplication->last_follow_up_date->format('Y-m-d') : '') }}">
                                             </div>
                                             <div class="col">
                                                 <label class="form-label fw-semibold">Next Follow-up Date</label>
-                                                <input type="date" name="next_follow_up_date" class="form-control"
-                                                    value="{{ old('next_follow_up_date', isset($jobApplication->next_follow_up_date) ? $jobApplication->next_follow_up_date->format('Y-m-d') : '') }}">
+                                                <input type="date" name="next_follow_up_date" class="form-control flatpickr-date"
+                                                    value="{{ old('next_follow_up_date', isset($jobApplication) && $jobApplication->next_follow_up_date ? $jobApplication->next_follow_up_date->format('Y-m-d') : '') }}">
                                             </div>
                                         </div>
 

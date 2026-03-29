@@ -63,6 +63,11 @@ return new class extends Migration
             $table->index('company_id');
             $table->index('application_status');
             $table->index('priority');
+            $table->index('application_date');
+            $table->index('application_deadline');
+            $table->index('next_follow_up_date');
+            $table->index('created_by');
+            $table->index('updated_by');
         });
     }
 

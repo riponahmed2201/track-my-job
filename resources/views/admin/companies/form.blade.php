@@ -97,7 +97,7 @@
                                             <label class="form-label fw-semibold">Logo</label>
                                             <input type="file" name="logo_url" class="form-control" accept="image/*">
                                             @if (isset($company) && $company->logo_url)
-                                                <img src="{{ asset($company->logo_url) }}" alt="Logo"
+                                                <img src="{{ asset('storage/' . $company->logo_url) }}" alt="Logo"
                                                     class="mt-2 rounded shadow-sm border" style="height:60px;">
                                             @endif
                                         </div>

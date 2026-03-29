@@ -24,8 +24,8 @@
                         <div class="d-flex justify-content-between align-items-center mb-4">
                             <h4 class="card-title mb-0">{{ $jobApplication->job_title }}</h4>
                             <div>
-                                <a href="{{ route('admin.job-applications.edit', $jobApplication) }}" class="btn btn-warning btn-sm">
-                                    <i class="bi bi-pencil"></i> Edit
+                                <a href="{{ route('admin.job-applications.edit', $jobApplication) }}" class="btn btn-outline-warning btn-sm">
+                                    <i class="bi bi-pencil-square me-1" aria-hidden="true"></i> Edit
                                 </a>
                                 <a href="{{ route('admin.job-applications.index') }}" class="btn btn-secondary btn-sm">
                                     <i class="bi bi-arrow-left"></i> Back
@@ -123,6 +123,89 @@
                                 <a href="{{ $jobApplication->job_url }}" target="_blank">{{ $jobApplication->job_url }}</a>
                             </div>
                         @endif
+
+                        {{-- Status History --}}
+                        @if ($jobApplication->applicationStatusHistories && $jobApplication->applicationStatusHistories->isNotEmpty())
+                            <div class="mt-4 pt-4 border-top">
+                                <h6 class="fw-semibold mb-3">Status History</h6>
+                                <ul class="list-group list-group-flush">
+                                    @foreach ($jobApplication->applicationStatusHistories as $hist)
+                                        <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                            <span>{{ ucfirst(str_replace('_', ' ', $hist->previous_status)) }} → <strong>{{ ucfirst(str_replace('_', ' ', $hist->new_status)) }}</strong></span>
+                                            <small class="text-muted">{{ $hist->created_at->format('M d, Y H:i') }}</small>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
+                        {{-- Interviews --}}
+                        <div class="mt-4 pt-4 border-top">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h6 class="fw-semibold mb-0">Interviews</h6>
+                                <a href="{{ route('admin.interviews.create', ['job_application_id' => $jobApplication->id]) }}" class="btn btn-sm btn-primary">Add Interview</a>
+                            </div>
+                            @if ($jobApplication->interviews && $jobApplication->interviews->isNotEmpty())
+                                <div class="table-responsive">
+                                    <table class="table table-sm table-bordered">
+                                        <thead><tr><th>Round</th><th>Type</th><th>Scheduled</th><th>Outcome</th><th></th></tr></thead>
+                                        <tbody>
+                                            @foreach ($jobApplication->interviews as $int)
+                                                <tr>
+                                                    <td>{{ $int->interview_round ?? '—' }}</td>
+                                                    <td>{{ $int->interview_type ?? '—' }}</td>
+                                                    <td>{{ $int->scheduled_date ? $int->scheduled_date->format('M d, Y') : '—' }}</td>
+                                                    <td>{{ $int->outcome ?? '—' }}</td>
+                                                    <td class="text-nowrap">
+                                                        <a href="{{ route('admin.interviews.show', $int) }}"
+                                                            class="btn btn-sm btn-outline-primary btn-icon"
+                                                            title="View"
+                                                            aria-label="View interview"><i class="bi bi-eye-fill"
+                                                                aria-hidden="true"></i></a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            @else
+                                <p class="text-muted small mb-0">No interviews yet. <a href="{{ route('admin.interviews.create', ['job_application_id' => $jobApplication->id]) }}">Add one</a></p>
+                            @endif
+                        </div>
+
+                        {{-- Follow-ups --}}
+                        <div class="mt-4 pt-4 border-top">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h6 class="fw-semibold mb-0">Follow-ups</h6>
+                                <a href="{{ route('admin.follow-ups.create', ['job_application_id' => $jobApplication->id]) }}" class="btn btn-sm btn-primary">Add Follow-up</a>
+                            </div>
+                            @if ($jobApplication->followUps && $jobApplication->followUps->isNotEmpty())
+                                <div class="table-responsive">
+                                    <table class="table table-sm table-bordered">
+                                        <thead><tr><th>Date</th><th>Type</th><th>Subject</th><th>Completed</th><th></th></tr></thead>
+                                        <tbody>
+                                            @foreach ($jobApplication->followUps as $fu)
+                                                <tr>
+                                                    <td>{{ $fu->follow_up_date?->format('M d, Y') }}</td>
+                                                    <td>{{ $fu->follow_up_type ?? '—' }}</td>
+                                                    <td>{{ Str::limit($fu->subject, 30) ?? '—' }}</td>
+                                                    <td>{{ $fu->completed ? 'Yes' : 'No' }}</td>
+                                                    <td class="text-nowrap">
+                                                        <a href="{{ route('admin.follow-ups.show', $fu) }}"
+                                                            class="btn btn-sm btn-outline-primary btn-icon"
+                                                            title="View"
+                                                            aria-label="View follow-up"><i class="bi bi-eye-fill"
+                                                                aria-hidden="true"></i></a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            @else
+                                <p class="text-muted small mb-0">No follow-ups yet. <a href="{{ route('admin.follow-ups.create', ['job_application_id' => $jobApplication->id]) }}">Add one</a></p>
+                            @endif
+                        </div>
 
                     </div>
                 </div>

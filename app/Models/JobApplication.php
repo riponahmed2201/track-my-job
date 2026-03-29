@@ -35,6 +35,13 @@ class JobApplication extends Model
         'updated_by',
     ];
 
+    protected $casts = [
+        'application_date' => 'date',
+        'application_deadline' => 'date',
+        'last_follow_up_date' => 'date',
+        'next_follow_up_date' => 'date',
+    ];
+
     /**
      * Relationships
      */
@@ -56,5 +63,20 @@ class JobApplication extends Model
     public function updater()
     {
         return $this->belongsTo(User::class, 'updated_by');
+    }
+
+    public function interviews()
+    {
+        return $this->hasMany(Interview::class, 'job_application_id');
+    }
+
+    public function followUps()
+    {
+        return $this->hasMany(FollowUp::class, 'job_application_id');
+    }
+
+    public function applicationStatusHistories()
+    {
+        return $this->hasMany(ApplicationStatusHistory::class, 'job_application_id');
     }
 }

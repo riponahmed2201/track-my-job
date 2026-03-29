@@ -36,18 +36,25 @@ return new class extends Migration
             $table->tinyInteger('overall_experience')->nullable(); // 1-5
             $table->boolean('next_round_scheduled')->default(false);
             $table->boolean('follow_up_required')->default(false);
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
             $table->timestamps();
 
-            // Foreign key
+            // Foreign keys
             $table->foreign('job_application_id')
                 ->references('id')
                 ->on('job_applications')
                 ->onDelete('cascade');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null');
 
             // Indexes
             $table->index('job_application_id');
             $table->index('interview_round');
             $table->index('outcome');
+            $table->index('scheduled_date');
+            $table->index('created_by');
+            $table->index('updated_by');
         });
     }
 

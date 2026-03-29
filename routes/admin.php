@@ -1,7 +1,10 @@
 <?php
 
 use App\Http\Controllers\Admin\CompanyController;
+use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\FollowUpController;
+use App\Http\Controllers\Admin\InterviewController;
 use App\Http\Controllers\Admin\JobApplicationController;
 use App\Http\Controllers\Admin\PasswordChangeController;
 use App\Http\Controllers\Admin\ProfileController;
@@ -30,5 +33,8 @@ Route::middleware('admin')->group(function () {
 
     Route::resource('companies', CompanyController::class);
     Route::resource('job-applications', JobApplicationController::class);
+    Route::resource('contacts', ContactController::class);
+    Route::resource('interviews', InterviewController::class);
+    Route::resource('follow-ups', FollowUpController::class);
     Route::resource('users', UserController::class);
 });

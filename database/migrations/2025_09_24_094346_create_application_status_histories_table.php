@@ -52,6 +52,7 @@ return new class extends Migration
             $table->index('job_application_id');
             $table->index('previous_status');
             $table->index('new_status');
+            $table->index('created_at');
         });
     }
 

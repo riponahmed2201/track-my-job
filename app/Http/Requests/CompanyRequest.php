@@ -30,7 +30,7 @@ class CompanyRequest extends FormRequest
             'founded_year' => 'nullable|integer|min:1000|max:' . date('Y'),
             'company_type' => 'nullable|string|max:255',
             'description' => 'nullable|string',
-            'logo_url' => 'nullable|url|max:255',
+            'logo_url' => 'nullable|image|mimes:jpeg,png,gif,webp|max:2048',
             'glassdoor_url' => 'nullable|url|max:255',
             'linkedin_url' => 'nullable|url|max:255',
             'average_rating' => 'nullable|numeric|min:0|max:5',
@@ -45,7 +45,6 @@ class CompanyRequest extends FormRequest
         return [
             'name.required' => 'Company name is required.',
             'website.url' => 'Website must be a valid URL.',
-            'logo_url.url' => 'Logo URL must be a valid URL.',
             'glassdoor_url.url' => 'Glassdoor URL must be a valid URL.',
             'linkedin_url.url' => 'LinkedIn URL must be a valid URL.',
             'founded_year.min' => 'Founded year must be a valid year.',

@@ -30,11 +30,27 @@ class Interview extends Model
         'overall_experience',
         'next_round_scheduled',
         'follow_up_required',
+        'created_by',
+        'updated_by',
+    ];
+
+    protected $casts = [
+        'scheduled_date' => 'datetime',
     ];
 
     // Relationships
-    public function application()
+    public function jobApplication()
     {
         return $this->belongsTo(JobApplication::class, 'job_application_id');
+    }
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function updater()
+    {
+        return $this->belongsTo(User::class, 'updated_by');
     }
 }

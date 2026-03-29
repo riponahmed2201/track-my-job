@@ -11,10 +11,49 @@ use Illuminate\Support\Facades\Storage;
 
 class CompanyController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $companies = Company::latest()->paginate(12);
-        return view('admin.companies.index', compact('companies'));
+        $query = Company::query();
+
+        $search = trim((string) $request->input('search', ''));
+        if ($search !== '') {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', '%'.$search.'%')
+                    ->orWhere('website', 'like', '%'.$search.'%')
+                    ->orWhere('industry', 'like', '%'.$search.'%')
+                    ->orWhere('headquarters', 'like', '%'.$search.'%');
+            });
+        }
+
+        $industry = trim((string) $request->input('industry', ''));
+        if ($industry !== '') {
+            $query->where('industry', $industry);
+        }
+
+        $size = trim((string) $request->input('company_size', ''));
+        if ($size !== '') {
+            $query->where('company_size', 'like', '%'.$size.'%');
+        }
+
+        $hq = trim((string) $request->input('headquarters', ''));
+        if ($hq !== '') {
+            $query->where('headquarters', 'like', '%'.$hq.'%');
+        }
+
+        if ($request->filled('founded_year')) {
+            $query->where('founded_year', $request->integer('founded_year'));
+        }
+
+        $companies = $query->latest()->paginate(12)->withQueryString();
+
+        $industries = Company::query()
+            ->whereNotNull('industry')
+            ->where('industry', '!=', '')
+            ->distinct()
+            ->orderBy('industry')
+            ->pluck('industry');
+
+        return view('admin.companies.index', compact('companies', 'industries'));
     }
 
     public function create()
@@ -47,11 +86,12 @@ class CompanyController extends Controller
         $data = $request->validated();
 
         if ($request->hasFile('logo_url')) {
-            // Delete old logo if exists
             if ($company->logo_url) {
                 Storage::disk('public')->delete($company->logo_url);
             }
             $data['logo_url'] = $request->file('logo_url')->store('logos', 'public');
+        } else {
+            unset($data['logo_url']);
         }
 
         $data['updated_by'] = Auth::id();

@@ -25,8 +25,8 @@
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <h5 class="card-title mb-0">{{ $company->name }}</h5>
                                 <div>
-                                    <a href="{{ route('admin.companies.edit', $company) }}" class="btn btn-warning">
-                                        <i class="bi bi-pencil"></i> Edit
+                                    <a href="{{ route('admin.companies.edit', $company) }}" class="btn btn-outline-warning">
+                                        <i class="bi bi-pencil-square me-1" aria-hidden="true"></i> Edit
                                     </a>
                                     <a href="{{ route('admin.companies.index') }}" class="btn btn-secondary">
                                         <i class="bi bi-arrow-left"></i> Back
@@ -37,7 +37,7 @@
                             {{-- Company Logo --}}
                             @if ($company->logo_url)
                                 <div class="mb-3 text-center">
-                                    <img src="{{ asset($company->logo_url) }}" alt="Logo"
+                                    <img src="{{ asset('storage/' . $company->logo_url) }}" alt="Logo"
                                         class="img-fluid rounded border shadow-sm"
                                         style="max-height: 120px; object-fit: contain;">
                                 </div>

@@ -24,10 +24,14 @@ class Contact extends Model
         'helpful',
     ];
 
+    protected $casts = [
+        'last_contacted_date' => 'date',
+    ];
+
     // Relationships
-    public function application()
+    public function company()
     {
-        return $this->belongsTo(JobApplication::class, 'job_application_id');
+        return $this->belongsTo(Company::class, 'company_id');
     }
 
     public function user()

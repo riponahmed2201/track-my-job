@@ -93,13 +93,13 @@
                                 <div class="col-md-2">
                                     <label class="form-label">Applied From</label>
                                     <input type="date" name="from_date" value="{{ request('from_date') }}"
-                                        class="form-control">
+                                        class="form-control flatpickr-date">
                                 </div>
 
                                 <div class="col-md-2">
                                     <label class="form-label">Applied To</label>
                                     <input type="date" name="to_date" value="{{ request('to_date') }}"
-                                        class="form-control">
+                                        class="form-control flatpickr-date">
                                 </div>
 
                                 <div class="col-md-2">
@@ -134,7 +134,7 @@
                                     <tbody>
                                         @forelse($applications as $application)
                                             <tr>
-                                                <td>{{ $application->id }}</td>
+                                                <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $application->job_title }}</td>
                                                 <td>{{ $application->company->name ?? '-' }}</td>
                                                 <td>{{ $application->user->name ?? '-' }}</td>
@@ -177,25 +177,32 @@
                                                 </td>
                                                 <td>{{ optional($application->next_follow_up_date)->format('M d, Y') ?? '-' }}
                                                 </td>
-                                                <td>
-                                                    <a href="{{ route('admin.job-applications.show', $application) }}"
-                                                        class="btn btn-sm btn-info">
-                                                        <i class="bi bi-eye"></i>
-                                                    </a>
-                                                    <a href="{{ route('admin.job-applications.edit', $application) }}"
-                                                        class="btn btn-sm btn-warning">
-                                                        <i class="bi bi-pencil"></i>
-                                                    </a>
-                                                    <form
-                                                        action="{{ route('admin.job-applications.destroy', $application) }}"
-                                                        method="POST" class="d-inline"
-                                                        onsubmit="return confirm('Delete this application?')">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button class="btn btn-sm btn-danger">
-                                                            <i class="bi bi-trash"></i>
-                                                        </button>
-                                                    </form>
+                                                <td class="text-nowrap">
+                                                    <div class="table-action-btns">
+                                                        <a href="{{ route('admin.job-applications.show', $application) }}"
+                                                            class="btn btn-sm btn-outline-primary btn-icon"
+                                                            title="View"
+                                                            aria-label="View application"><i class="bi bi-eye-fill"
+                                                                aria-hidden="true"></i></a>
+                                                        <a href="{{ route('admin.job-applications.edit', $application) }}"
+                                                            class="btn btn-sm btn-outline-warning btn-icon"
+                                                            title="Edit"
+                                                            aria-label="Edit application"><i class="bi bi-pencil-square"
+                                                                aria-hidden="true"></i></a>
+                                                        <form
+                                                            action="{{ route('admin.job-applications.destroy', $application) }}"
+                                                            method="POST" class="d-inline m-0 align-middle"
+                                                            onsubmit="return confirm('Delete this application?')">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit"
+                                                                class="btn btn-sm btn-outline-danger btn-icon"
+                                                                title="Delete"
+                                                                aria-label="Delete application"><i
+                                                                    class="bi bi-trash-fill"
+                                                                    aria-hidden="true"></i></button>
+                                                        </form>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         @empty

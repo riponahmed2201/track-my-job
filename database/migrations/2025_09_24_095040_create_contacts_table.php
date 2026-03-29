@@ -39,6 +39,7 @@ return new class extends Migration
             $table->index('user_id');
             $table->index('contact_type');
             $table->index('response_rate');
+            $table->index('last_contacted_date');
         });
     }
 
