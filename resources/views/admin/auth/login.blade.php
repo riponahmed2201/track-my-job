@@ -61,6 +61,14 @@
                                         <p class="text-center small">Enter your email & password to login</p>
                                     </div>
 
+                                    @if (session('success'))
+                                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                            {{ session('success') }}
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                aria-label="Close"></button>
+                                        </div>
+                                    @endif
+
                                     <form class="row g-3" action="{{ route('admin.login') }}" method="POST">
 
                                         @csrf

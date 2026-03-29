@@ -3,56 +3,56 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
-use Illuminate\View\View;
 
 class PasswordChangeController extends Controller
 {
-    public function passwordChange(): View
+    /**
+     * Password is edited on the same page as profile (account settings).
+     */
+    public function passwordChange(): RedirectResponse
     {
-        $profile = User::with('profile')->where('id', Auth::id())->first();
-
-        return view('admin.auth.password-change', compact('profile'));
+        return redirect()->to(route('admin.profile').'#change-password');
     }
 
     public function updatePassword(Request $request): RedirectResponse
     {
         $request->validate([
             'current_password' => 'required',
-            'password' => 'required|confirmed',
+            'password' => 'required|confirmed|min:8',
         ]);
 
         try {
             $user = Auth::user();
-
             $hashedPassword = $user->password;
 
-            if (Hash::check($request->current_password, $hashedPassword)) {
-                if (!Hash::check($request->password, $hashedPassword)) {
-                    $user->update([
-                        'password' => Hash::make($request->password)
-                    ]);
-                    Auth::logout();
-                    notify()->success('Password was changed successfully.', 'Success');
-                    return redirect('/admin/login');
-                } else {
-                    notify()->warning('New password can not be same as old password.', 'Warning');
-                }
-            } else {
-                notify()->error('Current password not match.', 'Error');
+            if (! Hash::check($request->current_password, $hashedPassword)) {
+                return redirect()->to(route('admin.profile').'#change-password')
+                    ->with('error', 'Current password does not match.');
             }
 
-            return back();
+            if (Hash::check($request->password, $hashedPassword)) {
+                return redirect()->to(route('admin.profile').'#change-password')
+                    ->with('warning', 'New password cannot be the same as your current password.');
+            }
+
+            $user->update([
+                'password' => Hash::make($request->password),
+            ]);
+
+            Auth::logout();
+
+            return redirect('/admin/login')->with('success', 'Password changed successfully. Please sign in again.');
         } catch (Exception $exception) {
-            Log::error("Password update failed", ['error' => $exception->getMessage()]);
-            notify()->error("Something went wrong! Please try again.", "Error");
-            return back();
+            Log::error('Password update failed', ['error' => $exception->getMessage()]);
+
+            return redirect()->to(route('admin.profile').'#change-password')
+                ->with('error', 'Something went wrong. Please try again.');
         }
     }
 }

@@ -29,8 +29,8 @@
 
                     <li>
                         <a class="dropdown-item d-flex align-items-center" href="{{ route('admin.profile') }}">
-                            <i class="bi bi-person"></i>
-                            <span>My Profile</span>
+                            <i class="bi bi-person-gear"></i>
+                            <span>Account settings</span>
                         </a>
                     </li>
                     <li>

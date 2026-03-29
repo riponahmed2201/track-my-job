@@ -3,36 +3,37 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
     public function index()
     {
-        $profile = User::with('profile')->where('id', Auth::id())->first();
-
-        return view('admin.profiles.index', compact('profile'));
+        return view('admin.profiles.index', [
+            'user' => Auth::user(),
+        ]);
     }
 
     public function update(Request $request)
     {
-        $request->validate([
+        $user = $request->user();
+
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore(Auth::user()->id)],
-            'phone' => ['required', 'string', 'max:20', Rule::unique('users')->ignore(Auth::user()->id)],
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
+            'phone' => ['nullable', 'string', 'max:30', Rule::unique('users')->ignore($user->id)],
         ]);
 
-        $input = $request->only(['name', 'email', 'phone']);
-
         try {
-
-            $user = $request->user();
-            $user->fill($input);
+            $user->name = $validated['name'];
+            $user->email = $validated['email'];
+            $user->phone = $validated['phone'] !== null && $validated['phone'] !== ''
+                ? $validated['phone']
+                : null;
 
             if ($user->isDirty('email')) {
                 $user->email_verified_at = null;
@@ -40,12 +41,11 @@ class ProfileController extends Controller
 
             $user->save();
 
-            notify()->success("Profile updated successfully.", "Success");
-            return back();
+            return back()->with('success', 'Profile updated successfully.');
         } catch (Exception $exception) {
-            Log::error("Profile update failed", ['error' => $exception->getMessage()]);
-            notify()->error("Something went wrong! Please try again.", "Error");
-            return back();
+            Log::error('Profile update failed', ['error' => $exception->getMessage()]);
+
+            return back()->with('error', 'Something went wrong. Please try again.');
         }
     }
 }
