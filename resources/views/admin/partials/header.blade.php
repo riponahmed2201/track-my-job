@@ -2,7 +2,8 @@
 
     <div class="d-flex align-items-center justify-content-between">
         <a href="/admin/dashboard" class="logo d-flex align-items-center">
-            <img src="{{ asset('assets/admin/img/logo.png') }}" alt="">
+            <img src="{{ asset('assets/admin/img/track-my-job-logo.png') }}" alt="Track My Job"
+                class="app-brand-logo" width="40" height="40">
             <span class="d-none d-lg-block">Track My Job</span>
         </a>
         <i class="bi bi-list toggle-sidebar-btn"></i>

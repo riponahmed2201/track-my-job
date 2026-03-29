@@ -6,6 +6,8 @@
     <title>Track My Job — Never lose a job application again</title>
     <meta name="description" content="Track job applications, companies, interviews and follow-ups in one place. Stay organized and land your next role.">
 
+    <link rel="icon" href="{{ asset('assets/admin/img/track-my-job-logo.png') }}" type="image/png">
+
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600,700|outfit:400,500,600,700" rel="stylesheet" />
 

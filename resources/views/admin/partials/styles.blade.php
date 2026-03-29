@@ -1,6 +1,6 @@
-<!-- Favicons -->
-<link href="{{ asset('assets/admin/img/favicon.png') }}" rel="icon">
-<link href="{{ asset('assets/admin/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
+<!-- Favicons (Track My Job brand mark) -->
+<link href="{{ asset('assets/admin/img/track-my-job-logo.png') }}" rel="icon" type="image/png" sizes="any">
+<link href="{{ asset('assets/admin/img/track-my-job-logo.png') }}" rel="apple-touch-icon">
 
 <!-- Google Fonts -->
 <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -28,6 +28,15 @@
 <link href="{{ asset('assets/admin/css/style.css') }}" rel="stylesheet">
 
 <style>
+    /* Brand logo in admin header (clearer than default 26px template rule) */
+    .header .logo img.app-brand-logo {
+        max-height: 40px;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+        margin-right: 10px;
+    }
+
     /* Evenly aligned icon-only row actions in data tables */
     .table-action-btns {
         display: inline-flex;

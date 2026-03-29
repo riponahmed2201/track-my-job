@@ -10,7 +10,7 @@
     <meta content="" name="keywords">
 
     <!-- Favicons -->
-    <link href="assets/admin/img/favicon.png" rel="icon">
+    <link href="{{ asset('assets/admin/img/track-my-job-logo.png') }}" rel="icon" type="image/png">
     <link href="assets/admin/img/apple-touch-icon.png" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
