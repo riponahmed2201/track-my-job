@@ -39,6 +39,11 @@
                 <i class="bi bi-people"></i><span>Users</span>
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{{ route('admin.database-backups.index') }}">
+                <i class="bi bi-database-down"></i><span>Database Backup</span>
+            </a>
+        </li>
 
     </ul>
 </aside>

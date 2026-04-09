@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\ContactController;
+use App\Http\Controllers\Admin\DatabaseBackupController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\FollowUpController;
 use App\Http\Controllers\Admin\InterviewController;
@@ -37,4 +38,13 @@ Route::middleware('admin')->group(function () {
     Route::resource('interviews', InterviewController::class);
     Route::resource('follow-ups', FollowUpController::class);
     Route::resource('users', UserController::class);
+
+    Route::get('database-backups', [DatabaseBackupController::class, 'index'])->name('database-backups.index');
+    Route::post('database-backups', [DatabaseBackupController::class, 'store'])->name('database-backups.store');
+    Route::get('database-backups/{file}/download', [DatabaseBackupController::class, 'download'])
+        ->where('file', '[^/]+')
+        ->name('database-backups.download');
+    Route::delete('database-backups/{file}', [DatabaseBackupController::class, 'destroy'])
+        ->where('file', '[^/]+')
+        ->name('database-backups.destroy');
 });
